@@ -54,10 +54,8 @@ class _MyHomePageState extends State<MyHomePage>
     with TickerProviderStateMixin {
   late AnimationController _controllerFast;
   late Animation _animationRadPB;
-  late AnimationController _controllerBG;
-  late Animation _animationBG;
 
-  bool _isConnected = false;
+  //bool _isConnected = false;
 
   @override
   void initState() {
@@ -65,39 +63,41 @@ class _MyHomePageState extends State<MyHomePage>
     _controllerFast =
         AnimationController(duration: const Duration(seconds: 10), vsync: this);
     _animationRadPB = Tween<double>(begin: 0, end: 100.0).animate(_controllerFast);
-    _controllerBG =
-        AnimationController(duration: const Duration(milliseconds: 500), vsync: this);
-    _animationBG = ColorTween(begin: const Color(0xFF202020), end: const Color(0xFF222222)).animate(_controllerBG);
-
+    /*
     _controllerBG.addListener(() {
       setState(() {});
     });
+    */
+
     _controllerFast.addListener(() {
       setState(() {});
     });
+
+    _controllerFast.repeat();
   }
 
   static bool _idleBool() {
     return false;
   }
+  /*
   void _connectBtn() {
     setState(() {
       _isConnected = !_isConnected;
       _isConnected ? _controllerFast.repeat() : _controllerFast.stop();
-      _controllerBG.forward();
     });
   }
+   */
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: _animationBG.value,
+      backgroundColor: const Color(0xFF222222),
       appBar: AppBar(),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            padding: const EdgeInsets.fromLTRB(10, 60, 10, 20),
+            padding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
             child: Center(
               child: SizedBox(
                   height: 340,
@@ -155,21 +155,23 @@ class _MyHomePageState extends State<MyHomePage>
                         showTicks: false,
                         startAngle: 270,
                         endAngle: 270,
-                        axisLineStyle: AxisLineStyle(
+                        axisLineStyle: const AxisLineStyle(
                           thickness: 0.055,
                           cornerStyle: CornerStyle.bothFlat,
-                          color: !_isConnected
-                              ? const Color(0xFF585858)
-                              : const Color(0xFFFFFFFF),
+                          color: //!_isConnected
+                          //    ? const Color(0xFF585858)
+                          //    :
+                          Color(0xFFFFFFFF),
                           thicknessUnit: GaugeSizeUnit.factor,
                         ),
                         pointers: <GaugePointer>[
                           RangePointer(
                             value: _animationRadPB.value,
                             width: 0.055,
-                            color: !_isConnected
-                                ? const Color(0xFFFFFFFF)
-                                : const Color(0xFFFFD60A),
+                            color:
+                                //? const Color(0xFFFFFFFF)
+                                //:
+                                const Color(0xFFFFD60A),
                             pointerOffset: 0,
                             cornerStyle: CornerStyle.bothFlat,
                             sizeUnit: GaugeSizeUnit.factor,
@@ -181,13 +183,11 @@ class _MyHomePageState extends State<MyHomePage>
               ),
             ),
           ),
-          _isConnected ? OutlinedButton(
+          OutlinedButton(
               style: ButtonStyle(
                 elevation: MaterialStateProperty.all<double>(5),
                 padding: MaterialStateProperty.all<EdgeInsets>(
                     const EdgeInsets.fromLTRB(30, 15, 30, 15)),
-                backgroundColor:
-                    MaterialStateProperty.all<Color>(_animationBG.value),
                 foregroundColor: MaterialStateProperty.all<Color>((_idleBool())
                     ? const Color(0x44FFD60A)
                     : const Color(0xFFFFD60A)),
@@ -205,8 +205,8 @@ class _MyHomePageState extends State<MyHomePage>
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Arial'))
-              ])):Container(),
-          _isConnected ? Container(
+              ])),
+          Container(
               margin: const EdgeInsets.fromLTRB(40, 70, 40, 0),
               child: Column(children: [
                 Row(
@@ -267,13 +267,13 @@ class _MyHomePageState extends State<MyHomePage>
                               fontFamily: 'Arial',
                               color: Color(0xFFFFFFFF)))
                     ])
-              ])):Container()
+              ]))
         ],
       ),
       bottomNavigationBar: BottomAppBar(
           elevation: 50,
           shape: const CircularNotchedRectangle(),
-          notchMargin: _isConnected ? 10 : 0,
+          notchMargin: 10,
           child: Row(
             children: [
               const Spacer(),
@@ -309,8 +309,8 @@ class _MyHomePageState extends State<MyHomePage>
             ],
           )),
       floatingActionButton: SizedBox(
-        height: _isConnected ? 70 : 0,
-        width: _isConnected ? 70 : 0,
+        height: 70,
+        width: 70,
         child: FloatingActionButton(
             onPressed: () {
               Navigator.push(
@@ -318,7 +318,7 @@ class _MyHomePageState extends State<MyHomePage>
                 MaterialPageRoute(builder: (context) => const ParkingSpace()),
               );
             },
-            child: _isConnected ? const Icon(Icons.dashboard, size: 35):Container()),
+            child: const Icon(Icons.dashboard, size: 35)),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
@@ -327,7 +327,6 @@ class _MyHomePageState extends State<MyHomePage>
   @override
   void dispose() {
     _controllerFast.dispose();
-    _controllerBG.dispose();
     super.dispose();
   }
 }
