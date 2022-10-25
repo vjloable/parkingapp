@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
               900: Color(0xFFFFBC03),
             }),
             fontFamily: 'Menlo',
-            scaffoldBackgroundColor: const Color(0xFF383838)),
+            scaffoldBackgroundColor: const Color(0xFF222222)),
         home: const MyHomePage(
           title: 'Parking App',
         ));
@@ -100,8 +100,8 @@ class _MyHomePageState extends State<MyHomePage>
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
             child: Center(
               child: SizedBox(
-                  height: 340,
-                  width: 340,
+                  height: 300,
+                  width: 300,
                   //300
                   child: SfRadialGauge(
                     axes: <RadialAxis>[
@@ -291,6 +291,7 @@ class _MyHomePageState extends State<MyHomePage>
                                 fontSize: 14, fontWeight: FontWeight.bold))
                       ])),
               const Spacer(),
+              const Text('\n\n\nSLOTS', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
               const Spacer(),
               SizedBox(
                   height: 80,
@@ -318,7 +319,13 @@ class _MyHomePageState extends State<MyHomePage>
                 MaterialPageRoute(builder: (context) => const ParkingSpace()),
               );
             },
-            child: const Icon(Icons.dashboard, size: 35)),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Icon(Icons.dashboard, size: 40),
+                ]
+            ),
+        )
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
