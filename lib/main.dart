@@ -1,10 +1,9 @@
+import 'package:parkingapp/mqtt/mqtt_client.dart';
 import 'dart:ui';
-
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
-//import 'package:permission_handler/permission_handler.dart';
-import 'package:mqtt_client/mqtt_client.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+//import 'package:permission_handler/permission_handler.dart';
 
 void main() {
   runApp(const MyApp());
