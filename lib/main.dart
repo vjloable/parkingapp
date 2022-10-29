@@ -1,4 +1,4 @@
-import 'package:parkingapp/mqtt/mqtt_client.dart';
+import 'package:parkingapp/mqtt/mqtt_manager.dart';
 import 'dart:ui';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +6,11 @@ import 'package:syncfusion_flutter_gauges/gauges.dart';
 //import 'package:permission_handler/permission_handler.dart';
 
 void main() {
+  ///var w = WrapperMQTT('4f65d161a8d94f0a89bf377bbe7164a4.s1.eu.hivemq.cloud', 8883, 'parksysapp','Psa12345678','android');
+  ///w.connect();
+  ///
+  MQTTClientWrapper newclient = MQTTClientWrapper();
+  newclient.prepareMqttClient();
   runApp(const MyApp());
 }
 
@@ -99,8 +104,8 @@ class _MyHomePageState extends State<MyHomePage>
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
             child: Center(
               child: SizedBox(
-                  height: 300,
-                  width: 300,
+                  height: 270,
+                  width: 270,
                   //300
                   child: SfRadialGauge(
                     axes: <RadialAxis>[
@@ -113,13 +118,13 @@ class _MyHomePageState extends State<MyHomePage>
                                 children: <Widget>[
                                   Text(_idleBool() ? '-' : '3B',
                                       style: TextStyle(
-                                        fontSize: 100,
+                                        fontSize: 90,
                                         color: _idleBool()
                                             ? const Color(0xFF585858)
                                             : const Color(0xFFFFFFFF),
                                         fontWeight: FontWeight.bold,
                                       )),
-                                  Text('\nNext free lot in:',
+                                  Text('Next free lot in:',
                                       style: TextStyle(
                                         fontSize: 12,
                                         fontFamily: 'Arial',
@@ -186,7 +191,7 @@ class _MyHomePageState extends State<MyHomePage>
               style: ButtonStyle(
                 elevation: MaterialStateProperty.all<double>(5),
                 padding: MaterialStateProperty.all<EdgeInsets>(
-                    const EdgeInsets.fromLTRB(30, 15, 30, 15)),
+                    const EdgeInsets.fromLTRB(30, 20, 30, 20)),
                 foregroundColor: MaterialStateProperty.all<Color>((_idleBool())
                     ? const Color(0x44FFD60A)
                     : const Color(0xFFFFD60A)),
@@ -198,15 +203,15 @@ class _MyHomePageState extends State<MyHomePage>
               ),
               onPressed: (_idleBool()) ? null : () {},
               child: Row(mainAxisSize: MainAxisSize.min, children: const [
-                Icon(Icons.confirmation_num),
+                Icon(Icons.confirmation_num, size: 16),
                 Text('   RESERVE',
                     style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 16,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Arial'))
               ])),
           Container(
-              margin: const EdgeInsets.fromLTRB(40, 70, 40, 0),
+              margin: const EdgeInsets.fromLTRB(40, 25, 40, 0),
               child: Column(children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -214,9 +219,9 @@ class _MyHomePageState extends State<MyHomePage>
                   children: [
                     Column(
                       children: const [
-                        Text('-',
+                        Text('12',
                             style: TextStyle(
-                                fontSize: 40,
+                                fontSize: 30,
                                 fontWeight: FontWeight.bold,
                                 color: Color(0xFFFFFFFF))),
                         Text('OCCUPIED',
@@ -230,7 +235,7 @@ class _MyHomePageState extends State<MyHomePage>
                       children: const [
                         Text('10',
                             style: TextStyle(
-                                fontSize: 50,
+                                fontSize: 40,
                                 fontWeight: FontWeight.bold,
                                 color: Color(0xFFFFD60A))),
                         Text('AVAILABLE',
@@ -242,9 +247,9 @@ class _MyHomePageState extends State<MyHomePage>
                     ),
                     Column(
                       children: const [
-                        Text('-',
+                        Text('8',
                             style: TextStyle(
-                                fontSize: 40,
+                                fontSize: 30,
                                 fontWeight: FontWeight.bold,
                                 color: Color(0xFFFFFFFF))),
                         Text('RESERVED',
@@ -256,16 +261,6 @@ class _MyHomePageState extends State<MyHomePage>
                     ),
                   ],
                 ),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Text('\n\nNumber of Lots: 20',
-                          style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Arial',
-                              color: Color(0xFFFFFFFF)))
-                    ])
               ]))
         ],
       ),
@@ -446,12 +441,7 @@ class _ParkingSpaceState extends State<ParkingSpace>
                     ],
                   )));
         }),
-      ),
-      bottomNavigationBar: const LinearProgressIndicator(
-        backgroundColor: Color(0xFFFFFFFF),
-        color: Color(0xFFFFD60A),
-        value: 50,
-      ),
+      )
     );
   }
 }
