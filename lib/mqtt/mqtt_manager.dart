@@ -45,8 +45,8 @@ class MQTTClientWrapper {
   void prepareMqttClient() async {
     _setupMqttClient();
     await _connectClient();
-    _subscribeToTopic('Dart/Mqtt_client/testtopic');
-    _publishMessage('Hello');
+    //_subscribeToTopic('Dart/Mqtt_client/testtopic');
+    _publishMessage('Hi');
   }
 
   // waiting for the connection, if an error occurs, print it and disconnect
@@ -54,7 +54,6 @@ class MQTTClientWrapper {
     try {
       print('client connecting....');
       connectionState = MqttCurrentConnectionState.CONNECTING;
-      ///4f65d161a8d94f0a89bf377bbe7164a4.s1.eu.hivemq.cloud
       await client.connect('parksysapp', 'Psa12345678');
     } on Exception catch (e) {
       print('client exception - $e');
