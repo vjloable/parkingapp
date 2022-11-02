@@ -1,6 +1,7 @@
-# parkingapp
+# Parking System App (Prototype)
+###IoT, Mobile Development
 
-A new Flutter project.
+A Flutter + Firebase parking system mobile app connected to Arduino.
 
 ## Getting Started
 
